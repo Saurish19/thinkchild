@@ -1,29 +1,147 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downloadable PDF</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Downloadable PDF | Cybermania</title>
+    <style>
+        /* --- Basic Reset --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        /* --- Page Styling --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
+            color: #fff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        header {
+            text-align: center;
+            padding: 2rem 1rem;
+            background: rgba(0, 0, 0, 0.25);
+            backdrop-filter: blur(8px);
+        }
+
+        header h1 {
+            font-size: 2.5rem;
+            letter-spacing: 1px;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        section {
+            margin: 1.5rem 0;
+            max-width: 600px;
+        }
+
+        h2 {
+            margin-bottom: 0.8rem;
+            font-size: 1.8rem;
+            color: #00e6b8;
+        }
+
+        p {
+            font-size: 1.1rem;
+            line-height: 1.6;
+            color: #e0e0e0;
+        }
+
+        /* --- Download Button --- */
+        a.download-btn {
+            display: inline-block;
+            margin-top: 1.5rem;
+            padding: 0.8rem 1.6rem;
+            background: #00e6b8;
+            color: #0f2027;
+            font-weight: bold;
+            text-decoration: none;
+            border-radius: 50px;
+            transition: 0.3s ease;
+            box-shadow: 0 0 15px rgba(0, 230, 184, 0.4);
+        }
+
+        a.download-btn:hover {
+            background: #00cfa5;
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px rgba(0, 230, 184, 0.6);
+        }
+
+        footer {
+            text-align: center;
+            padding: 1rem;
+            font-size: 0.9rem;
+            background: rgba(0, 0, 0, 0.3);
+        }
+
+        /* --- Animation --- */
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        header, main, footer {
+            animation: fadeIn 1.2s ease forwards;
+        }
+
+        /* --- Responsive --- */
+        @media (max-width: 600px) {
+            header h1 {
+                font-size: 2rem;
+            }
+            h2 {
+                font-size: 1.5rem;
+            }
+            p {
+                font-size: 1rem;
+            }
+        }
+    </style>
 </head>
 <body>
     <header>
         <h1>Downloadable PDF</h1>
     </header>
+
     <main>
         <section>
             <h2>Introduction</h2>
-            <p>This website provides a downloadable PDF file.</p>
+            <p>Welcome to <strong>C.ybermania</strong> — a creative hub for digital enthusiasts. 
+            You can download the exclusive PDF below and explore our content offline.</p>
         </section>
+
         <section>
             <h2>Download PDF</h2>
-            <a href="example.pdf" download>Download PDF</a>
+            <a href="An Ode to Cyber mania.pdf" class="download-btn" download>
+                ⬇ Download “An Ode to Cybermania”
+            </a>
         </section>
     </main>
+
     <footer>
-        <p>&copy; 2023</p>
+        <p>&copy; 2025 Cybermania | Designed with innovation</p>
     </footer>
-    <script src="script.js"></script>
+
+    <script>
+        // Optional script for user feedback
+        document.querySelector('.download-btn').addEventListener('click', () => {
+            alert('Your download will begin shortly. Enjoy reading!');
+        });
+    </script>
 </body>
 </html>
