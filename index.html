@@ -1,147 +1,390 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Downloadable PDF | Cybermania</title>
-    <style>
-        /* --- Basic Reset --- */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>⟡ Cipher Relay ⟡</title>
+  <meta name="description" content="Cryptic puzzle — solve to unlock the download." />
+  <style>
+    :root{
+      --bg1:#071218;
+      --bg2:#0b2633;
+      --accent:#00f2c3;
+      --accent2:#8be9ff;
+      --muted: rgba(255,255,255,0.08);
+      --glass: rgba(255,255,255,0.04);
+      --neon: 0 0 18px rgba(0,242,195,0.28);
+      --mono: 'Courier New', monospace;
+    }
 
-        /* --- Page Styling --- */
-        body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #0f2027, #203a43, #2c5364);
-            color: #fff;
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
-        }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0;
+      font-family: Inter, system-ui, -apple-system, "Segoe UI", Roboto, var(--mono);
+      background: radial-gradient(1200px 600px at 10% 10%, rgba(0,40,60,0.45), transparent),
+                  linear-gradient(180deg,var(--bg1),var(--bg2));
+      color:#dffdf6;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      padding:32px;
+    }
 
-        header {
-            text-align: center;
-            padding: 2rem 1rem;
-            background: rgba(0, 0, 0, 0.25);
-            backdrop-filter: blur(8px);
-        }
+    .card{
+      width:min(880px,96vw);
+      backdrop-filter: blur(6px);
+      background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));
+      border-radius:16px;
+      padding:28px;
+      box-shadow: 0 10px 40px rgba(2,10,12,0.6);
+      border: 1px solid var(--muted);
+      position:relative;
+      overflow:hidden;
+    }
 
-        header h1 {
-            font-size: 2.5rem;
-            letter-spacing: 1px;
-        }
+    .brand{
+      display:flex;
+      gap:12px;
+      align-items:center;
+    }
+    .logo{
+      width:56px;height:56px;border-radius:10px;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg,var(--accent2),var(--accent));
+      box-shadow: var(--neon);
+      color:#02121a;font-weight:700;font-family:var(--mono);
+      transform: rotate(-8deg);
+      letter-spacing:1px;
+    }
 
-        main {
-            flex: 1;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            padding: 2rem;
-            text-align: center;
-        }
+    h1{
+      margin:0;font-size:1.35rem;
+      letter-spacing:1px;
+      display:flex;flex-direction:column;
+    }
+    h1 small{
+      font-size:0.7rem;opacity:0.7;margin-top:6px;font-weight:600;
+    }
 
-        section {
-            margin: 1.5rem 0;
-            max-width: 600px;
-        }
+    .row{
+      display:flex;gap:18px;margin-top:18px;align-items:flex-start;
+    }
 
-        h2 {
-            margin-bottom: 0.8rem;
-            font-size: 1.8rem;
-            color: #00e6b8;
-        }
+    .left{
+      flex:1;
+    }
+    .right{
+      width:320px;
+      min-width:220px;
+    }
 
-        p {
-            font-size: 1.1rem;
-            line-height: 1.6;
-            color: #e0e0e0;
-        }
+    .panel{
+      background: linear-gradient(180deg, rgba(255,255,255,0.01), rgba(255,255,255,0.005));
+      border-radius:10px;padding:14px;border:1px solid rgba(255,255,255,0.03);
+      font-family:var(--mono);
+    }
 
-        /* --- Download Button --- */
-        a.download-btn {
-            display: inline-block;
-            margin-top: 1.5rem;
-            padding: 0.8rem 1.6rem;
-            background: #00e6b8;
-            color: #0f2027;
-            font-weight: bold;
-            text-decoration: none;
-            border-radius: 50px;
-            transition: 0.3s ease;
-            box-shadow: 0 0 15px rgba(0, 230, 184, 0.4);
-        }
+    .hintline{
+      color:rgba(255,255,255,0.12); font-size:0.85rem; padding:8px 12px;border-radius:8px;
+      background: linear-gradient(180deg, transparent, rgba(255,255,255,0.01));
+      margin-bottom:8px;
+    }
 
-        a.download-btn:hover {
-            background: #00cfa5;
-            transform: translateY(-3px);
-            box-shadow: 0 0 25px rgba(0, 230, 184, 0.6);
-        }
+    .encoded{
+      font-size:1.05rem;padding:12px;border-radius:8px;background:rgba(0,0,0,0.15);
+      color:#e6fff6; letter-spacing:1.2px; line-height:1.6;
+      overflow-wrap:anywhere;
+    }
 
-        footer {
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.9rem;
-            background: rgba(0, 0, 0, 0.3);
-        }
+    .muted{
+      color: rgba(255,255,255,0.5);
+      font-size:0.92rem;
+    }
 
-        /* --- Animation --- */
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(15px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
+    .cta{
+      margin-top:14px; display:flex; gap:10px; align-items:center;
+    }
 
-        header, main, footer {
-            animation: fadeIn 1.2s ease forwards;
-        }
+    input[type="text"]{
+      width:100%;
+      padding:10px 12px;
+      border-radius:8px;border:1px solid rgba(255,255,255,0.06);
+      background: rgba(2,8,12,0.45); color: #dffdf6; font-family:var(--mono); font-size:0.95rem;
+      outline:none;
+    }
 
-        /* --- Responsive --- */
-        @media (max-width: 600px) {
-            header h1 {
-                font-size: 2rem;
-            }
-            h2 {
-                font-size: 1.5rem;
-            }
-            p {
-                font-size: 1rem;
-            }
-        }
-    </style>
+    button{
+      padding:10px 12px;border-radius:10px;border:0;font-weight:700;
+      background:linear-gradient(90deg,var(--accent),var(--accent2));
+      color:#02121a; cursor:pointer; box-shadow:var(--neon);
+      font-family:inherit;
+    }
+    button[disabled]{
+      opacity:0.45; cursor:default; box-shadow:none;
+    }
+
+    .download{
+      display:block;margin-top:14px;padding:12px;border-radius:10px;text-align:center;
+      text-decoration:none;font-weight:700;color:#00171a;background:linear-gradient(90deg,var(--accent2),var(--accent));
+      box-shadow: var(--neon); border:1px solid rgba(255,255,255,0.04);
+      user-select:none;
+    }
+    .download.disabled{
+      pointer-events:none; opacity:0.36; filter:grayscale(0.35);
+      background:linear-gradient(90deg,#0e2a33,#052026);
+      box-shadow:none;color:rgba(255,255,255,0.7);
+    }
+
+    /* faint clue letters (very subtle) */
+    .subtle span.let{opacity:0.08; font-weight:900; font-family:var(--mono); letter-spacing:2px}
+    /* customize each for hinting */
+    .let.c{color:#e76f51}
+    .let.y{color:#f4a261}
+    .let.b{color:#2a9d8f}
+    .let.e{color:#00f2c3}
+    .let.r{color:#8be9ff}
+
+    /* footer */
+    footer{
+      display:flex;justify-content:space-between;align-items:center;margin-top:16px;font-size:0.85rem;color:rgba(255,255,255,0.5);
+    }
+    footer small{opacity:0.6}
+
+    /* simple animated background lines */
+    .glitch-lines{
+      position:absolute;inset:0;pointer-events:none;mix-blend-mode:overlay;
+      background-image: linear-gradient(transparent 90%, rgba(255,255,255,0.01) 91%);
+      background-size: 100% 28px;
+      transform: translateZ(0);
+      opacity:0.6;
+    }
+
+    /* tiny helper text that appears on success */
+    .reveal{
+      margin-top:10px;padding:10px;border-radius:8px;background:rgba(0,0,0,0.22);
+      color: #bfffe9; font-family:var(--mono);
+    }
+    .secret-hint{ display:none; font-size:0.95rem; color: #cfeef1; margin-top:10px; }
+
+    /* responsive */
+    @media (max-width:760px){
+      .row{flex-direction:column}
+      .right{width:100%}
+    }
+  </style>
 </head>
 <body>
-    <header>
-        <h1>Downloadable PDF</h1>
-    </header>
+  <div class="card" role="main" aria-label="Cryptic puzzle card">
+    <div class="brand" aria-hidden="true">
+      <div class="logo">CY</div>
+      <h1>
+        Cipher Relay
+        <small>Find the phrase — unlock the relic</small>
+      </h1>
+    </div>
 
-    <main>
-        <section>
-            <h2>Introduction</h2>
-            <p>Welcome to <strong>C.ybermania</strong> — a creative hub for digital enthusiasts. 
-            You can download the exclusive PDF below and explore our content offline.</p>
-        </section>
+    <div class="row">
+      <div class="left">
+        <div class="panel">
+          <!-- visible encoded riddle -->
+          <div class="hintline subtle">
+            <!-- very subtle letters: first letters of these spans spell the passphrase visually if you squint -->
+            <span class="let c">C</span>
+            <span class="let y">Y</span>
+            <span class="let b">B</span>
+            <span class="let e">E</span>
+            <span class="let r">R</span>
+            <span style="margin-left:10px;font-size:0.86rem;opacity:0.7">…listen to the first light</span>
+          </div>
 
-        <section>
-            <h2>Download PDF</h2>
-            <a href="An Ode to Cyber mania.pdf" class="download-btn" download>
-                ⬇ Download “An Ode to Cybermania”
-            </a>
-        </section>
-    </main>
+          <p class="muted">Encoded transmission (Caesar shift):</p>
+
+          <!-- Encoded text: original -> "The secret path lies where the moon meets the sea."
+               Encoded with a +5 Caesar shift -->
+          <div id="encoded" class="encoded" tabindex="0" aria-label="Encoded riddle">
+            Ymj xjhwjy ufym qn nxjwj ymj rtts rjjy ymj xjf.
+          </div>
+
+          <div style="display:flex;gap:8px;margin-top:12px;align-items:center">
+            <input id="pass" type="text" placeholder="Enter passphrase to unlock (case-insensitive)" aria-label="Passphrase input">
+            <button id="tryBtn" title="Submit passphrase">Try</button>
+          </div>
+
+          <div id="feedback" class="reveal" style="display:none"></div>
+
+          <div id="after" class="secret-hint" aria-hidden="true">
+            When unlocked: the download link will appear, and an extra hint will glow.
+          </div>
+        </div>
+      </div>
+
+      <div class="right">
+        <div class="panel" aria-hidden="false">
+          <p class="muted">Locked Relic</p>
+          <!-- download is disabled until passphrase is correct -->
+          <a id="downloadBtn" class="download disabled" download data-file="An%20Ode%20to%20Cyber%20mania.pdf" href="#">
+            🔒 Locked — Solve the cipher
+          </a>
+
+          <div style="margin-top:12px;color:rgba(255,255,255,0.7);font-size:0.9rem">
+            Tip: Inspect the page — some letters are quieter than others.
+          </div>
+        </div>
+
+        <div style="height:12px"></div>
+
+        <div class="panel" style="margin-top:12px">
+          <p class="muted" style="margin-bottom:8px">Quick actions</p>
+          <div style="display:flex;flex-direction:column;gap:8px">
+            <button id="decBtn" title="Attempt to decode with passphrase length">Decode (auto-shift)</button>
+            <button id="hintBtn" title="Reveal a steganographic clue">Whisper</button>
+          </div>
+        </div>
+      </div>
+    </div>
 
     <footer>
-        <p>&copy; 2025 Cybermania | Designed with innovation</p>
+      <small>&copy; Cybermania</small>
+      <small id="clicker" title="Click rapidly">⟡</small>
     </footer>
 
-    <script>
-        // Optional script for user feedback
-        document.querySelector('.download-btn').addEventListener('click', () => {
-            alert('Your download will begin shortly. Enjoy reading!');
-        });
-    </script>
+    <div class="glitch-lines" aria-hidden="true"></div>
+  </div>
+
+  <script>
+    // ======= Puzzle logic =======
+    // Passphrase: subtly hinted by faint letters: "CYBER"
+    const PASS = "cyber";
+
+    // Encoded text currently on page (Caesar shift +5). We'll decode using shift=PassLength.
+    // Helper: Caesar decode with a shift
+    function caesarDecode(s, shift) {
+      return s.replace(/[A-Za-z]/g, function(c){
+        const base = c < 'a' ? 65 : 97;
+        return String.fromCharCode((c.charCodeAt(0) - base - shift + 26) % 26 + base);
+      });
+    }
+
+    // Elements
+    const passInput = document.getElementById('pass');
+    const tryBtn = document.getElementById('tryBtn');
+    const feedback = document.getElementById('feedback');
+    const downloadBtn = document.getElementById('downloadBtn');
+    const encodedDiv = document.getElementById('encoded');
+    const decBtn = document.getElementById('decBtn');
+    const hintBtn = document.getElementById('hintBtn');
+    const clicker = document.getElementById('clicker');
+
+    // When user tries the passphrase
+    tryBtn.addEventListener('click', attempt);
+    passInput.addEventListener('keydown', (e)=>{ if(e.key === 'Enter') attempt() });
+
+    function attempt(){
+      const val = (passInput.value || "").trim().toLowerCase();
+      if(!val){
+        flash("Type something. The silence won't unlock it.");
+        return;
+      }
+      if(val === PASS){
+        succeed();
+      } else {
+        flash("Incorrect — the relay hums but refuses.");
+        jitter();
+      }
+    }
+
+    function flash(msg){
+      feedback.style.display = 'block';
+      feedback.textContent = msg;
+      feedback.style.opacity = 1;
+      setTimeout(()=> feedback.style.opacity = 0.9, 10);
+      setTimeout(()=> feedback.style.display = 'none', 2500);
+    }
+
+    function succeed(){
+      // enable download: reconstruct href from data-file and reveal hint
+      const file = downloadBtn.dataset.file || "An%20Ode%20to%20Cyber%20mania.pdf";
+      downloadBtn.href = decodeURIComponent(file);
+      downloadBtn.classList.remove('disabled');
+      downloadBtn.textContent = "🔓 Download Relic";
+      feedback.style.display = 'block';
+      feedback.textContent = "Relic unlocked. The riddle also decodes itself below.";
+      document.getElementById('after').style.display = 'block';
+      // decode encodedDiv using shift = pass length
+      const shift = PASS.length; // 5
+      encodedDiv.textContent = caesarDecode(encodedDiv.textContent, shift);
+    }
+
+    // decode button: decodes using pass length (if they haven't solved yet)
+    decBtn.addEventListener('click', ()=>{
+      const shift = PASS.length;
+      encodedDiv.textContent = caesarDecode(encodedDiv.textContent, shift);
+      flash("Decoded with shift = " + shift + ". Does that help?");
+    });
+
+    // whisper button: reveals a subtle clue (simulates stego/hint)
+    hintBtn.addEventListener('click', ()=>{
+      // small riddle reveal
+      const small = document.createElement('div');
+      small.style.marginTop = '10px';
+      small.style.fontFamily = 'inherit';
+      small.style.fontSize = '0.92rem';
+      small.style.color = 'rgba(255,255,255,0.82)';
+      small.textContent = "Whisper: The quiet letters in the header (first of each span) help.";
+      hintBtn.disabled = true;
+      hintBtn.textContent = "Whispered";
+      hintBtn.style.opacity = 0.7;
+      hintBtn.parentNode.appendChild(small);
+    });
+
+    // small UX: jitter input on wrong try
+    function jitter(){
+      passInput.animate([
+        { transform: "translateX(0)" },
+        { transform: "translateX(-6px)" },
+        { transform: "translateX(6px)" },
+        { transform: "translateX(0)" }
+      ], { duration:280, iterations:1 });
+    }
+
+    // Footer clicker: reveal tiny extra hint after 3 clicks
+    let clicks = 0;
+    clicker.addEventListener('click', ()=>{
+      clicks++;
+      if(clicks === 3){
+        const tip = document.createElement('div');
+        tip.style.position = 'fixed';
+        tip.style.left = '16px';
+        tip.style.bottom = '16px';
+        tip.style.padding = '10px 12px';
+        tip.style.borderRadius = '8px';
+        tip.style.background = 'rgba(0,0,0,0.6)';
+        tip.style.color = '#bfffe9';
+        tip.style.fontFamily = 'var(--mono)';
+        tip.style.boxShadow = '0 6px 20px rgba(0,0,0,0.6)';
+        tip.textContent = "Tiny hint: count the faint letters.";
+        document.body.appendChild(tip);
+        setTimeout(()=> tip.remove(), 4500);
+        clicks = 0;
+      }
+    });
+
+    // Accessibility: allow encoded div to be focusable and toggled back/forth
+    encodedDiv.addEventListener('dblclick', ()=>{
+      // toggle encoded/decode quickly for those who know shift
+      const current = encodedDiv.textContent;
+      // Heuristic: if current looks decoded (has "the" or "path"), re-encode quickly using shift
+      if(/ the | path | secret /i.test(current)){
+        // re-encode with negative shift (-5)
+        encodedDiv.textContent = caesarDecode(current, 26 - (PASS.length)); // re-encode
+      }else{
+        encodedDiv.textContent = caesarDecode(current, PASS.length);
+      }
+    });
+
+    // small protective measure: user can still view source to solve (intended for puzzles!)
+    // Nothing else required here.
+  </script>
 </body>
 </html>
